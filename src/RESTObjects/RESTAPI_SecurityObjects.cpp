@@ -737,4 +737,27 @@ namespace OpenWifi::SecurityObjects {
         return false;
     }
 
+  void PermissionEntry::to_json(Poco::JSON::Object &Obj) const {
+    field_to_json(Obj, "id", id);
+    field_to_json(Obj, "role", role);
+    field_to_json(Obj, "model", model);
+    field_to_json(Obj, "permission", permission);
+  }
+
+  bool PermissionEntry::from_json(const Poco::JSON::Object::Ptr &Obj) {
+    try {
+      field_from_json(Obj, "id", id);
+      field_from_json(Obj, "role", role);
+      field_from_json(Obj, "model", model);
+      field_from_json(Obj, "permission", permission);
+      return true;
+    } catch (...) {
+      std::cout << "Cannot parse: Token" << std::endl;
+    }
+    return false;
+  }
+
+  void PermissionMapObj::to_json(Poco::JSON::Object &Obj) const {
+    field_to_json(Obj, "permissions", permissions);
+  }
 } // namespace OpenWifi::SecurityObjects

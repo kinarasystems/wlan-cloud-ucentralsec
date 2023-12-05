@@ -48,6 +48,8 @@ namespace OpenWifi {
 			std::make_unique<OpenWifi::LoginDB>("SubLogins", "lis", dbType_, *Pool_, Logger());
 		ApiKeyDB_ =
 			std::make_unique<OpenWifi::ApiKeyDB>("ApiKeys", "api", dbType_, *Pool_, Logger());
+    PermissionDB_ =
+			std::make_unique<OpenWifi::PermissionDB>("Permissions", "prm", dbType_, *Pool_, Logger());
 
 		UserDB_->Create();
 		SubDB_->Create();
@@ -61,6 +63,7 @@ namespace OpenWifi {
 		LoginDB_->Create();
 		ApiKeyDB_->Create();
 		SubLoginDB_->Create();
+    PermissionDB_->Create();
 
 		OpenWifi::SpecialUserHelpers::InitializeDefaultUser();
 

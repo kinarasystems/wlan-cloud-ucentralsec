@@ -18,6 +18,7 @@
 #include "storage/orm_apikeys.h"
 #include "storage/orm_avatar.h"
 #include "storage/orm_logins.h"
+#include "storage/orm_permissions.h"
 #include "storage/orm_preferences.h"
 #include "storage/orm_tokens.h"
 #include "storage/orm_users.h"
@@ -53,6 +54,7 @@ namespace OpenWifi {
 		OpenWifi::LoginDB &LoginDB() { return *LoginDB_; }
 		OpenWifi::LoginDB &SubLoginDB() { return *SubLoginDB_; }
 		OpenWifi::ApiKeyDB &ApiKeyDB() { return *ApiKeyDB_; }
+    OpenWifi::PermissionDB &PermissionDB() { return *PermissionDB_; }
 
 	  private:
 		std::unique_ptr<OpenWifi::BaseUserDB> UserDB_;
@@ -67,6 +69,7 @@ namespace OpenWifi {
 		std::unique_ptr<OpenWifi::LoginDB> LoginDB_;
 		std::unique_ptr<OpenWifi::LoginDB> SubLoginDB_;
 		std::unique_ptr<OpenWifi::ApiKeyDB> ApiKeyDB_;
+    std::unique_ptr<OpenWifi::PermissionDB> PermissionDB_;
 
 		std::unique_ptr<OpenWifi::UserCache> UserCache_;
 		std::unique_ptr<OpenWifi::UserCache> SubCache_;

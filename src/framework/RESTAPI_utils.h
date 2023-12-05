@@ -154,6 +154,19 @@ namespace OpenWifi::RESTAPI_utils {
 		Obj.set(Field, A);
 	}
 
+  inline void field_to_json(Poco::JSON::Object &Obj, const char *Field,
+                const SecurityObjects::PermissionMap &Map) {
+    Poco::JSON::Object MapObj;
+    for (auto &[Model, Permissions] : Map) {
+      Poco::JSON::Object ModelObject;
+      for (auto &[Permission, Allowed] : Permissions) {
+        ModelObject.set(Permission, Allowed);
+      }
+      MapObj.set(Model, ModelObject);
+    }
+    Obj.set(Field, MapObj);
+  }
+
 	template <typename T>
 	void field_to_json(Poco::JSON::Object &Obj, const char *Field, const T &V,
 					   std::function<std::string(const T &)> F) {

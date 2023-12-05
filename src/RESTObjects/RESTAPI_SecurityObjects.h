@@ -375,5 +375,22 @@ namespace OpenWifi {
             bool from_json(const Poco::JSON::Object::Ptr &Obj);
         };
 
-} // namespace SecurityObjects
+    struct PermissionEntry {
+      Types::UUID_t id;
+      std::string role;
+      std::string model;
+      std::string permission;
+
+      void to_json(Poco::JSON::Object &Obj) const;
+      bool from_json(const Poco::JSON::Object::Ptr &Obj);
+    };
+
+    typedef std::map<std::string, bool> ModelPermissionMap;
+    typedef std::map<std::string, ModelPermissionMap> PermissionMap;
+    struct PermissionMapObj {
+      PermissionMap permissions;
+      
+      void to_json(Poco::JSON::Object &Obj) const;
+    };
+  } // namespace SecurityObjects
 } // namespace OpenWifi
