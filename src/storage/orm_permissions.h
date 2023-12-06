@@ -21,7 +21,8 @@ namespace OpenWifi {
 		inline uint32_t Version() override { return 1; }
 
 		bool Upgrade(uint32_t from, uint32_t &to) override;
-    bool GetPermissions(const std::string &role, SecurityObjects::PermissionMap &permisions);
+    bool GetPermissions(const std::string &role, SecurityObjects::PermissionMap &permissions);
+    bool UpdatePermissions(const std::string &role, SecurityObjects::PermissionMap &permissions);
     bool AddPermission(const std::string &role, const std::string &model, const std::string &permission);
 	};
 

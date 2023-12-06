@@ -387,10 +387,7 @@ namespace OpenWifi {
 
     typedef std::map<std::string, bool> ModelPermissionMap;
     typedef std::map<std::string, ModelPermissionMap> PermissionMap;
-    struct PermissionMapObj {
-      PermissionMap permissions;
-      
-      void to_json(Poco::JSON::Object &Obj) const;
-    };
+    Poco::JSON::Object permissions_to_json(const SecurityObjects::PermissionMap &Map);
+    PermissionMap permissions_from_json(const Poco::JSON::Object::Ptr &Obj);
   } // namespace SecurityObjects
 } // namespace OpenWifi

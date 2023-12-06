@@ -757,7 +757,31 @@ namespace OpenWifi::SecurityObjects {
     return false;
   }
 
-  void PermissionMapObj::to_json(Poco::JSON::Object &Obj) const {
-    field_to_json(Obj, "permissions", permissions);
+  Poco::JSON::Object permissions_to_json(const PermissionMap &Map) {
+    Poco::JSON::Object MapObj;
+    for (auto &[Model, Permissions] : Map) {
+      Poco::JSON::Object ModelObject;
+      for (auto &[Permission, Allowed] : Permissions) {
+        ModelObject.set(Permission, Allowed);
+      }
+      MapObj.set(Model, ModelObject);
+    }
+    return MapObj;
   }
+
+  PermissionMap permissions_from_json(const Poco::JSON::Object::Ptr &Obj) {
+    PermissionMap permissions;
+    Poco::JSON::Object::ConstIterator it1;
+    for(it1 = Obj->begin(); it1 != Obj->end(); it1++) {
+      std::string model = it1->first;
+      Poco::JSON::Object::Ptr modelObj = it1->second.extract<Poco::JSON::Object::Ptr>();
+      Poco::JSON::Object::ConstIterator it2;
+      for(it2 = modelObj->begin(); it2 != modelObj->end(); it2++) {
+        std::string permission = it2->first;
+        bool allowed = it2->second;
+        permissions[model][permission] = allowed;
+      }
+    }
+    return permissions;
+	}
 } // namespace OpenWifi::SecurityObjects

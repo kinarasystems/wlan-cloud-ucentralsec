@@ -19,15 +19,37 @@ namespace OpenWifi {
 
     SecurityObjects::PermissionMap permissions;
     if (StorageService()->PermissionDB().GetPermissions(role, permissions)) {
-      SecurityObjects::PermissionMapObj permissionsObj;
-      permissionsObj.permissions = permissions;
-      Poco::JSON::Object Answer;
-      permissionsObj.to_json(Answer);
+      Poco::JSON::Object Answer = SecurityObjects::permissions_to_json(permissions);
       return ReturnObject(Answer);
     } 
 
     return NotFound();
 	}
+
+  void RESTAPI_permissions_handler::DoPut() {
+    std::string role = GetBinding("role", "");
+		if (SecurityObjects::UserTypeFromString(role) == SecurityObjects::UNKNOWN) {
+			return BadRequest(RESTAPI::Errors::MissingOrInvalidParameters);
+		}
+
+    const auto &Obj = ParsedBody_;
+		if (Obj == nullptr) {
+			return BadRequest(RESTAPI::Errors::InvalidJSONDocument);
+		}
+
+    SecurityObjects::PermissionMap permissions;
+    try {
+      permissions = SecurityObjects::permissions_from_json(Obj);
+    } catch (...) {
+      return BadRequest(RESTAPI::Errors::InvalidJSONDocument);
+    }
+
+    if (StorageService()->PermissionDB().UpdatePermissions(role, permissions)) {
+      return OK();
+    }
+
+    return InternalError(RESTAPI::Errors::CouldNotUpdatePermissions);
+  }
 
   void RESTAPI_permissions_handler::DoPost() {
     std::string role = GetBinding("role", "");
