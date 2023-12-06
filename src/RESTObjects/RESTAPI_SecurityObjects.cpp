@@ -282,6 +282,7 @@ namespace OpenWifi::SecurityObjects {
 		field_to_json(Obj, "oauthUserInfo", oauthUserInfo);
 		field_to_json(Obj, "modified", modified);
 		field_to_json(Obj, "signingUp", signingUp);
+    Obj.set("userPermissions", permissions_to_json(userPermissions));
 	};
 
 	bool UserInfo::from_json(const Poco::JSON::Object::Ptr &Obj) {
@@ -318,6 +319,7 @@ namespace OpenWifi::SecurityObjects {
 			field_from_json(Obj, "oauthUserInfo", oauthUserInfo);
 			field_from_json(Obj, "modified", modified);
 			field_from_json(Obj, "signingUp", signingUp);
+      userPermissions = permissions_from_json(Obj->getObject("userPermissions"));
 			return true;
 		} catch (const Poco::Exception &E) {
 			std::cout << "Cannot parse: UserInfo" << std::endl;
@@ -771,6 +773,9 @@ namespace OpenWifi::SecurityObjects {
 
   PermissionMap permissions_from_json(const Poco::JSON::Object::Ptr &Obj) {
     PermissionMap permissions;
+    if (Obj == nullptr) {
+      return permissions;
+    }
     Poco::JSON::Object::ConstIterator it1;
     for(it1 = Obj->begin(); it1 != Obj->end(); it1++) {
       std::string model = it1->first;
