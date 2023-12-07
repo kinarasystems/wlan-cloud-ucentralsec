@@ -11,9 +11,15 @@ namespace OpenWifi {
 
 	void RESTAPI_permissions_handler::DoGet() {
     std::string role = GetBinding("role", "");
-		if (SecurityObjects::UserTypeFromString(role) == SecurityObjects::UNKNOWN) {
+    SecurityObjects::USER_ROLE roleEnum = SecurityObjects::UserTypeFromString(role);
+		if (roleEnum == SecurityObjects::UNKNOWN) {
 			return BadRequest(RESTAPI::Errors::MissingOrInvalidParameters);
 		}
+
+    if (roleEnum == SecurityObjects::ROOT) {
+      Poco::JSON::Object permissions = SecurityObjects::permissions_to_json(SecurityObjects::GetAllPermissions());
+      return ReturnObject(permissions);
+    }
 
     // TODO restrict this to certain roles?
 

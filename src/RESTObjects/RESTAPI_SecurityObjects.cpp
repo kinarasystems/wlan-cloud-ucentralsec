@@ -12,6 +12,8 @@
 #include "RESTAPI_SecurityObjects.h"
 #include "framework/RESTAPI_utils.h"
 
+#include <stdlib.h>
+
 using OpenWifi::RESTAPI_utils::field_from_json;
 using OpenWifi::RESTAPI_utils::field_to_json;
 
@@ -789,4 +791,17 @@ namespace OpenWifi::SecurityObjects {
     }
     return permissions;
 	}
+
+  PermissionMap GetAllPermissions() {
+    PermissionMap permissions;
+    permissions["venues"]["create"] = true;
+    permissions["venues"]["delete"] = true;
+
+    permissions["devices"]["create"] = true;
+    permissions["devices"]["delete"] = true;
+
+    permissions["roles"]["update"] = true;
+    
+    return permissions;
+  }
 } // namespace OpenWifi::SecurityObjects

@@ -15,6 +15,8 @@
 #include "framework/utils.h"
 #include <string>
 #include <type_traits>
+#include <iostream>
+#include <fstream>
 
 namespace OpenWifi {
 	uint64_t Now();
@@ -186,6 +188,8 @@ namespace OpenWifi {
 			void to_json(Poco::JSON::Object &Obj) const;
 			bool from_json(const Poco::JSON::Object::Ptr &Obj);
 		};
+
+    PermissionMap GetAllPermissions();
 
 		// bool append_from_json(Poco::JSON::Object::Ptr Obj, const UserInfo &UInfo, NoteInfoVec &
 		// Notes);

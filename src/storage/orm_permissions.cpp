@@ -87,9 +87,7 @@ namespace OpenWifi {
           for (auto &record : records) {
             std::string model = record.model;
             std::string permission = record.permission;
-            if (!permissions.count(model) ||
-                !permissions[model].count(permission) ||
-                !permissions[model][permission]) {
+            if (!permissions[model][permission]) {
               // DB permission is not found in input or is false, it should be deleted
               toDelete.push_back(record.id);
             } else {

@@ -903,10 +903,14 @@ namespace OpenWifi {
 				return false;
 			Expired = (WT.created_ + WT.expires_in_) < Utils::Now();
 			if (StorageService()->UserDB().GetUserById(UserId, UserInfo)) {
-        SecurityObjects::PermissionMap Permissions;
-        std::string role = SecurityObjects::UserTypeToString(UserInfo.userRole);
-        StorageService()->PermissionDB().GetPermissions(role, Permissions);
-        UserInfo.userPermissions = Permissions;
+        if (UserInfo.userRole == SecurityObjects::ROOT) {
+          // Give all permissions to root
+          UserInfo.userPermissions = SecurityObjects::GetAllPermissions();
+        } else {
+          std::string role = SecurityObjects::UserTypeToString(UserInfo.userRole);
+          StorageService()->PermissionDB().GetPermissions(role, UserInfo.userPermissions);
+        }
+
 				WebToken = WT;
 				return true;
 			}
