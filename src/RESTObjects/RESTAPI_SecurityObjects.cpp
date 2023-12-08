@@ -321,7 +321,7 @@ namespace OpenWifi::SecurityObjects {
 			field_from_json(Obj, "oauthUserInfo", oauthUserInfo);
 			field_from_json(Obj, "modified", modified);
 			field_from_json(Obj, "signingUp", signingUp);
-      userPermissions = permissions_from_json(Obj->getObject("userPermissions"));
+			userPermissions = permissions_from_json(Obj->getObject("userPermissions"));
 			return true;
 		} catch (const Poco::Exception &E) {
 			std::cout << "Cannot parse: UserInfo" << std::endl;
