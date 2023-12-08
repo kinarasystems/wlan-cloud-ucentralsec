@@ -127,20 +127,20 @@ namespace OpenWifi {
 			bool from_json(const Poco::JSON::Object::Ptr &Obj);
 		};
 
-    struct PermissionEntry {
-      Types::UUID_t id;
-      std::string role;
-      std::string model;
-      std::string permission;
+		struct PermissionEntry {
+			Types::UUID_t id;
+			std::string role;
+			std::string model;
+			std::string permission;
 
-      void to_json(Poco::JSON::Object &Obj) const;
-      bool from_json(const Poco::JSON::Object::Ptr &Obj);
-    };
+			void to_json(Poco::JSON::Object &Obj) const;
+			bool from_json(const Poco::JSON::Object::Ptr &Obj);
+		};
 
-    typedef std::map<std::string, bool> ModelPermissionMap;
-    typedef std::map<std::string, ModelPermissionMap> PermissionMap;
-    Poco::JSON::Object permissions_to_json(const SecurityObjects::PermissionMap &Map);
-    PermissionMap permissions_from_json(const Poco::JSON::Object::Ptr &Obj);
+		typedef std::map<std::string, bool> ModelPermissionMap;
+		typedef std::map<std::string, ModelPermissionMap> PermissionMap;
+		Poco::JSON::Object permissions_to_json(const SecurityObjects::PermissionMap &Map);
+		PermissionMap permissions_from_json(const Poco::JSON::Object::Ptr &Obj);
 
 		struct UserInfo {
 			std::string id;
@@ -166,7 +166,7 @@ namespace OpenWifi {
 			bool suspended = false;
 			bool blackListed = false;
 			USER_ROLE userRole;
-      PermissionMap userPermissions;
+			PermissionMap userPermissions;
 			UserLoginLoginExtensions userTypeProprietaryInfo;
 			std::string securityPolicy;
 			uint64_t securityPolicyChange = 0;
@@ -189,7 +189,7 @@ namespace OpenWifi {
 			bool from_json(const Poco::JSON::Object::Ptr &Obj);
 		};
 
-    PermissionMap GetAllPermissions();
+		PermissionMap GetAllPermissions();
 
 		// bool append_from_json(Poco::JSON::Object::Ptr Obj, const UserInfo &UInfo, NoteInfoVec &
 		// Notes);
