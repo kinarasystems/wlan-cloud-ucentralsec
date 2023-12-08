@@ -800,7 +800,7 @@ namespace OpenWifi::SecurityObjects {
     permissions["devices"]["create"] = true;
     permissions["devices"]["delete"] = true;
 
-    permissions["roles"]["update"] = true;
+    permissions["permissions"]["update"] = true;
     
     return permissions;
   }

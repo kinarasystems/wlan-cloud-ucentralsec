@@ -40,6 +40,12 @@ namespace OpenWifi {
 	}
 
   bool PermissionDB::GetPermissions(const std::string &role, SecurityObjects::PermissionMap &permissions) {
+    SecurityObjects::USER_ROLE roleEnum = SecurityObjects::UserTypeFromString(role);
+    if (roleEnum == SecurityObjects::ROOT) {
+      permissions = SecurityObjects::GetAllPermissions();
+      return true;
+    }
+    
     std::string whereClause;
 		whereClause = fmt::format("role='{}' ", Poco::toLower(role));
     try {

@@ -2,7 +2,7 @@
 // Created by stephane bourque on 2022-11-04.
 //
 
-
+#include "AuthService.h"
 #include "RESTAPI_permissions_handler.h"
 #include "RESTAPI/RESTAPI_db_helpers.h"
 #include "RESTObjects/RESTAPI_SecurityObjects.h"
@@ -16,13 +16,6 @@ namespace OpenWifi {
 			return BadRequest(RESTAPI::Errors::MissingOrInvalidParameters);
 		}
 
-    if (roleEnum == SecurityObjects::ROOT) {
-      Poco::JSON::Object permissions = SecurityObjects::permissions_to_json(SecurityObjects::GetAllPermissions());
-      return ReturnObject(permissions);
-    }
-
-    // TODO restrict this to certain roles?
-
     SecurityObjects::PermissionMap permissions;
     if (StorageService()->PermissionDB().GetPermissions(role, permissions)) {
       Poco::JSON::Object Answer = SecurityObjects::permissions_to_json(permissions);
@@ -33,6 +26,10 @@ namespace OpenWifi {
 	}
 
   void RESTAPI_permissions_handler::DoPut() {
+    if (!UserInfo_.userinfo.userPermissions["permissions"]["update"]) {
+      return UnAuthorized(RESTAPI::Errors::ACCESS_DENIED);
+    }
+
     std::string role = GetBinding("role", "");
 		if (SecurityObjects::UserTypeFromString(role) == SecurityObjects::UNKNOWN) {
 			return BadRequest(RESTAPI::Errors::MissingOrInvalidParameters);
@@ -51,6 +48,7 @@ namespace OpenWifi {
     }
 
     if (StorageService()->PermissionDB().UpdatePermissions(role, permissions)) {
+      AuthService()->PermissionsUpdated(role);
       return OK();
     }
 

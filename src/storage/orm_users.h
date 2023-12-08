@@ -75,7 +75,7 @@ namespace OpenWifi {
 		bool CreateUser(const std::string &Admin, SecurityObjects::UserInfo &NewUser,
 						bool PasswordHashedAlready = false);
 		bool GetUserByEmail(const std::string &email, SecurityObjects::UserInfo &User);
-		bool GetUserById(const std::string &Id, SecurityObjects::UserInfo &User);
+		bool GetUserById(const std::string &Id, SecurityObjects::UserInfo &User, bool GetPerms = false);
 		bool GetUsers(uint64_t Offset, uint64_t HowMany, SecurityObjects::UserInfoVec &Users,
 					  const std::string &WhereClause = "");
 		bool UpdateUserInfo(const std::string &Admin, SecurityObjects::USER_ID_TYPE &Id,

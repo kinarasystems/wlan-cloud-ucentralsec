@@ -216,7 +216,7 @@ namespace OpenWifi {
 				}
 				auto now = Utils::Now();
 				Expired = (WT.created_ + WT.expires_in_) < now;
-				if (StorageService()->UserDB().GetUserById(UserId, UInfo.userinfo)) {
+				if (StorageService()->UserDB().GetUserById(UserId, UInfo.userinfo, true)) {
 					UInfo.webtoken = WT;
 					poco_debug(Logger(), fmt::format("TokenValidation success for TID={} Token={}",
 													 TID, Utils::SanitizeToken(CallToken)));
@@ -902,15 +902,7 @@ namespace OpenWifi {
 			if (RevocationDate != 0)
 				return false;
 			Expired = (WT.created_ + WT.expires_in_) < Utils::Now();
-			if (StorageService()->UserDB().GetUserById(UserId, UserInfo)) {
-        if (UserInfo.userRole == SecurityObjects::ROOT) {
-          // Give all permissions to root
-          UserInfo.userPermissions = SecurityObjects::GetAllPermissions();
-        } else {
-          std::string role = SecurityObjects::UserTypeToString(UserInfo.userRole);
-          StorageService()->PermissionDB().GetPermissions(role, UserInfo.userPermissions);
-        }
-
+			if (StorageService()->UserDB().GetUserById(UserId, UserInfo, true)) {
 				WebToken = WT;
 				return true;
 			}
@@ -953,7 +945,7 @@ namespace OpenWifi {
 			Expired = ApiKeyEntry.expiresOn < Utils::Now();
 			if (Expired)
 				return false;
-			if (StorageService()->UserDB().GetUserById(ApiKeyEntry.userUuid, UserInfo)) {
+			if (StorageService()->UserDB().GetUserById(ApiKeyEntry.userUuid, UserInfo, true)) {
 				if (UserInfo.suspended) {
 					Suspended = true;
 					return false;
@@ -965,6 +957,22 @@ namespace OpenWifi {
 			}
 		}
 		return false;
+	}
+
+	void AuthService::PermissionsUpdated(const std::string &role) {
+		try {
+			if (KafkaManager()->Enabled()) {
+				Poco::JSON::Object Obj;
+				Obj.set(KafkaTopics::ServiceEvents::Fields::EVENT,
+								KafkaTopics::ServiceEvents::EVENT_PERMISSIONS_UPDATE);
+				Obj.set(KafkaTopics::ServiceEvents::Fields::ID, MicroServiceID());
+				Obj.set(KafkaTopics::ServiceEvents::Fields::ROLE, role);
+				KafkaManager()->PostMessage(KafkaTopics::SERVICE_EVENTS,
+											MicroServicePrivateEndPoint(), Obj, false);
+			}
+		} catch (const Poco::Exception &E) {
+			Logger().log(E);
+		}
 	}
 
 } // namespace OpenWifi

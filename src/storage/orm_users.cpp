@@ -150,9 +150,15 @@ namespace OpenWifi {
 		return false;
 	}
 
-	bool BaseUserDB::GetUserById(const std::string &Id, SecurityObjects::UserInfo &User) {
+	bool BaseUserDB::GetUserById(const std::string &Id, SecurityObjects::UserInfo &User, bool GetPerms) {
 		try {
-			return GetRecord("id", Id, User);
+			bool getUserSuccess = GetRecord("id", Id, User);
+			bool getPermissionSuccess = true;
+			if (getUserSuccess && GetPerms) {
+				std::string role = SecurityObjects::UserTypeToString(User.userRole);
+				getPermissionSuccess = StorageService()->PermissionDB().GetPermissions(role, User.userPermissions);
+			}
+			return getUserSuccess && getPermissionSuccess;
 		} catch (const Poco::Exception &E) {
 			Logger().log(E);
 		}

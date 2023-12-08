@@ -180,6 +180,8 @@ namespace OpenWifi {
 		[[nodiscard]] inline auto UserSignature() const { return UserSignature_; };
 		[[nodiscard]] inline auto SubSignature() const { return SubSignature_; };
 
+		void PermissionsUpdated(const std::string &role);
+
 	  private:
 		Poco::SHA2Engine SHA2_;
 
@@ -230,5 +232,4 @@ namespace OpenWifi {
 		else
 			return AuthService()->IsAuthorized(Request, SessionToken, UInfo, TID, Expired);
 	}
-
 } // namespace OpenWifi
