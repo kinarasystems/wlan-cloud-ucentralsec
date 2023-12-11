@@ -151,7 +151,7 @@ namespace OpenWifi {
 	}
 
 	/**
-	 * Given an Id and User object, find the user based on ID and write into Uer
+	 * Given an Id and User object, find the user based on ID and write into User
 	 * If GetPerms is true, also get permissions of that user
 	 * Return whether this was successful
 	*/
