@@ -150,6 +150,11 @@ namespace OpenWifi {
 		return false;
 	}
 
+	/**
+	 * Given an Id and User object, find the user based on ID and write into Uer
+	 * If GetPerms is true, also get permissions of that user
+	 * Return whether this was successful
+	*/
 	bool BaseUserDB::GetUserById(const std::string &Id, SecurityObjects::UserInfo &User, bool GetPerms) {
 		try {
 			bool getUserSuccess = GetRecord("id", Id, User);

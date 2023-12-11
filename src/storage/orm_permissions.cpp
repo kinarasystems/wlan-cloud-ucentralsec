@@ -39,8 +39,14 @@ namespace OpenWifi {
 		return true;
 	}
 
+  /**
+   * Given a role and a PermissionMap, get permissions of that role from the DB
+   * and write it into the map
+   * Return whether this was successful
+  */
   bool PermissionDB::GetPermissions(const std::string &role, SecurityObjects::PermissionMap &permissions) {
     SecurityObjects::USER_ROLE roleEnum = SecurityObjects::UserTypeFromString(role);
+    // Root has all permissions
     if (roleEnum == SecurityObjects::ROOT) {
       permissions = SecurityObjects::GetAllPermissions();
       return true;
@@ -69,6 +75,11 @@ namespace OpenWifi {
 		return false;
   }
 
+  /**
+   * Given a role and a PermissionMap, replace the permissions of that role with the
+   * new permissions
+   * Return whether this was successful
+  */
   bool PermissionDB::UpdatePermissions(const std::string &role, SecurityObjects::PermissionMap &permissions) {
     std::string whereClause;
 		whereClause = fmt::format("role='{}' ", Poco::toLower(role));
@@ -76,6 +87,9 @@ namespace OpenWifi {
         uint64_t offset = 0;
         uint64_t limit = 500;
         std::vector<Types::UUID_t> toDelete;
+    
+        // Create a copy of the input permissions to keep track of which ones
+        // need to be added to the db
         SecurityObjects::PermissionMap toCreate;
         for (auto &[model, modelPerms] : permissions) {
           for (auto &[permission, allowed] : modelPerms) {
@@ -90,6 +104,7 @@ namespace OpenWifi {
             break;
           }
 
+          // Compare input permissions to DB permissions to decide what to add/remove
           for (auto &record : records) {
             std::string model = record.model;
             std::string permission = record.permission;
@@ -129,6 +144,10 @@ namespace OpenWifi {
 		return false;
   }
 
+  /**
+   * Given a role, model, and permission, add the permission to the DB
+   * Return whether this was successful
+  */
   bool PermissionDB::AddPermission(const std::string &role, const std::string &model, const std::string &permission) {
     try {
       SecurityObjects::PermissionEntry record;

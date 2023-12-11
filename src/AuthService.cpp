@@ -959,6 +959,10 @@ namespace OpenWifi {
 		return false;
 	}
 
+	/**
+	 * Send an event to all microservices indicating permissions of role have been updated
+	 * The cached user info for this role is invalid now
+	*/
 	void AuthService::PermissionsUpdated(const std::string &role) {
 		try {
 			if (KafkaManager()->Enabled()) {

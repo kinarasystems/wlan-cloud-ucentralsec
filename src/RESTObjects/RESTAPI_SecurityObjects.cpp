@@ -761,6 +761,9 @@ namespace OpenWifi::SecurityObjects {
 		return false;
 	}
 
+	/**
+	 * Convert PermissionMap into a JSON object and return it
+	*/
 	Poco::JSON::Object permissions_to_json(const PermissionMap &Map) {
 		Poco::JSON::Object MapObj;
 		for (auto &[Model, Permissions] : Map) {
@@ -773,6 +776,9 @@ namespace OpenWifi::SecurityObjects {
 		return MapObj;
 	}
 
+	/**
+	 * Convert JSON object into a PermissionMap and return it
+	*/
 	PermissionMap permissions_from_json(const Poco::JSON::Object::Ptr &Obj) {
 		PermissionMap permissions;
 		if (Obj == nullptr) {
@@ -792,6 +798,9 @@ namespace OpenWifi::SecurityObjects {
 		return permissions;
 	}
 
+	/**
+	 * Return a map containing all implemented permissions set to true
+	*/
 	PermissionMap GetAllPermissions() {
 		PermissionMap permissions;
 

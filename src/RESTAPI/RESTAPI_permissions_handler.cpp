@@ -9,6 +9,10 @@
 
 namespace OpenWifi {
 
+  /**
+   * Get all permissions of a role
+   * Returns a map like { model: { permission: true }}
+  */
   void RESTAPI_permissions_handler::DoGet() {
     std::string role = GetBinding("role", "");
     SecurityObjects::USER_ROLE roleEnum = SecurityObjects::UserTypeFromString(role);
@@ -25,6 +29,10 @@ namespace OpenWifi {
     return NotFound();
   }
 
+  /**
+   * Given a role and a map of permissions in the body (e.g. { model: { permission: true }})
+   * Replace existing permissions of that role with new ones
+  */
   void RESTAPI_permissions_handler::DoPut() {
     if (!UserInfo_.userinfo.userPermissions["permissions"]["update"]) {
       return UnAuthorized(RESTAPI::Errors::ACCESS_DENIED);

@@ -127,6 +127,7 @@ namespace OpenWifi {
 			bool from_json(const Poco::JSON::Object::Ptr &Obj);
 		};
 
+		// Represents permission in DB
 		struct PermissionEntry {
 			Types::UUID_t id;
 			std::string role;
@@ -137,7 +138,9 @@ namespace OpenWifi {
 			bool from_json(const Poco::JSON::Object::Ptr &Obj);
 		};
 
+		// Map a permission (e.g. create, delete) to true/false
 		typedef std::map<std::string, bool> ModelPermissionMap;
+		// Map a model (e.g. venues, devices) to permissions
 		typedef std::map<std::string, ModelPermissionMap> PermissionMap;
 		Poco::JSON::Object permissions_to_json(const SecurityObjects::PermissionMap &Map);
 		PermissionMap permissions_from_json(const Poco::JSON::Object::Ptr &Obj);
