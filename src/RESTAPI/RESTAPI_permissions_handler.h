@@ -10,7 +10,6 @@ namespace OpenWifi {
 							   bool Internal)
 			: RESTAPIHandler(bindings, L,
 							 std::vector<std::string>{Poco::Net::HTTPRequest::HTTP_GET,
-                                        Poco::Net::HTTPRequest::HTTP_POST,
                                         Poco::Net::HTTPRequest::HTTP_PUT,
                                         Poco::Net::HTTPRequest::HTTP_OPTIONS},
 							 Server, TransactionId, Internal) {}
@@ -20,7 +19,7 @@ namespace OpenWifi {
 		PermissionDB &DB_ = StorageService()->PermissionDB();
 
 		void DoGet() final;
-		void DoPost() final;
+		void DoPost() final{};
 		void DoDelete() final{};
 		void DoPut() final;
 	};

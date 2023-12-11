@@ -117,12 +117,7 @@ namespace OpenWifi {
         for (auto &[model, modelPerms] : permissions) {
           for (auto &[permission, allowed] : modelPerms) {
             if(toCreate[model][permission]) {
-              SecurityObjects::PermissionEntry record;
-              record.id = MicroServiceCreateUUID();
-              record.role = role;
-              record.model = model;
-              record.permission = permission;
-              CreateRecord(record);
+              AddPermission(role, model, permission);
             }
           }
         }

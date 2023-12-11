@@ -756,7 +756,7 @@ namespace OpenWifi::SecurityObjects {
 			field_from_json(Obj, "permission", permission);
 			return true;
 		} catch (...) {
-			std::cout << "Cannot parse: Token" << std::endl;
+			std::cout << "Cannot parse: Permission Entry" << std::endl;
 		}
 		return false;
 	}
@@ -794,13 +794,18 @@ namespace OpenWifi::SecurityObjects {
 
 	PermissionMap GetAllPermissions() {
 		PermissionMap permissions;
+
+		permissions["permissions"]["update"] = true;
+
 		permissions["venues"]["create"] = true;
 		permissions["venues"]["delete"] = true;
 
-		permissions["devices"]["create"] = true;
-		permissions["devices"]["delete"] = true;
+		permissions["entities"]["create"] = true;
+		permissions["entities"]["delete"] = true;
 
-		permissions["permissions"]["update"] = true;
+		permissions["scripts"]["create"] = true;
+		permissions["scripts"]["delete"] = true;
+		permissions["scripts"]["update"] = true;
 		
 		return permissions;
 	}
