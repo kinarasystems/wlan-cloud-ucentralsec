@@ -761,6 +761,7 @@ namespace OpenWifi::SecurityObjects {
 		return false;
 	}
 
+
 	PERMISSION_TYPE PermTypeFromString(const std::string &U) {
 		if (!Poco::icompare(U, "create"))
 			return PT_CREATE;
@@ -852,22 +853,22 @@ namespace OpenWifi::SecurityObjects {
 	}
 
 	/**
-	 * Return a map containing all implemented permissions set to true
+	 * Return a map containing all implemented permissions set to true or false
 	*/
-	PermissionMap GetAllPermissions() {
+	PermissionMap GetAllPermissions(bool allowed) {
 		PermissionMap permissions;
 
-		permissions[PM_PERMISSIONS][PT_UPDATE] = true;
+		permissions[PM_PERMISSIONS][PT_UPDATE] = allowed;
 
-		permissions[PM_VENUES][PT_CREATE] = true;
-		permissions[PM_VENUES][PT_DELETE] = true;
+		permissions[PM_VENUES][PT_CREATE] = allowed;
+		permissions[PM_VENUES][PT_DELETE] = allowed;
 
-		permissions[PM_ENTITIES][PT_CREATE] = true;
-		permissions[PM_ENTITIES][PT_DELETE] = true;
+		permissions[PM_ENTITIES][PT_CREATE] = allowed;
+		permissions[PM_ENTITIES][PT_DELETE] = allowed;
 
-		permissions[PM_SCRIPTS][PT_CREATE] = true;
-		permissions[PM_SCRIPTS][PT_DELETE] = true;
-		permissions[PM_SCRIPTS][PT_UPDATE] = true;
+		permissions[PM_SCRIPTS][PT_CREATE] = allowed;
+		permissions[PM_SCRIPTS][PT_DELETE] = allowed;
+		permissions[PM_SCRIPTS][PT_UPDATE] = allowed;
 		
 		return permissions;
 	}

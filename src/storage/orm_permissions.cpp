@@ -48,13 +48,15 @@ namespace OpenWifi {
     SecurityObjects::USER_ROLE roleEnum = SecurityObjects::UserTypeFromString(role);
     // Root has all permissions
     if (roleEnum == SecurityObjects::ROOT) {
-      permissions = SecurityObjects::GetAllPermissions();
+      permissions = SecurityObjects::GetAllPermissions(true);
       return true;
     }
     
     std::string whereClause;
 		whereClause = fmt::format("role='{}' ", Poco::toLower(role));
     try {
+        permissions = SecurityObjects::GetAllPermissions(false);
+
         uint64_t offset = 0;
         uint64_t limit = 500;
         while (true) {
