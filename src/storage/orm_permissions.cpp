@@ -64,7 +64,9 @@ namespace OpenWifi {
             break;
           }
           for (auto &record : records) {
-            permissions[record.model][record.permission] = true;
+            SecurityObjects::PERMISSION_MODEL model = SecurityObjects::PermModelFromString(record.model);
+            SecurityObjects::PERMISSION_TYPE permission = SecurityObjects::PermTypeFromString(record.permission);
+            permissions[model][permission] = true;
           }
           offset += limit;
         }
@@ -106,8 +108,8 @@ namespace OpenWifi {
 
           // Compare input permissions to DB permissions to decide what to add/remove
           for (auto &record : records) {
-            std::string model = record.model;
-            std::string permission = record.permission;
+            SecurityObjects::PERMISSION_MODEL model = SecurityObjects::PermModelFromString(record.model);
+            SecurityObjects::PERMISSION_TYPE permission = SecurityObjects::PermTypeFromString(record.permission);
             if (!permissions[model][permission]) {
               // DB permission is not found in input or is false, it should be deleted
               toDelete.push_back(record.id);
@@ -148,13 +150,13 @@ namespace OpenWifi {
    * Given a role, model, and permission, add the permission to the DB
    * Return whether this was successful
   */
-  bool PermissionDB::AddPermission(const std::string &role, const std::string &model, const std::string &permission) {
+  bool PermissionDB::AddPermission(const std::string &role, const SecurityObjects::PERMISSION_MODEL &model, const SecurityObjects::PERMISSION_TYPE &permission) {
     try {
       SecurityObjects::PermissionEntry record;
       record.id = MicroServiceCreateUUID();
       record.role = role;
-      record.model = model;
-      record.permission = permission;
+      record.model = SecurityObjects::PermModelToString(model);
+      record.permission = SecurityObjects::PermTypeToString(permission);
       return CreateRecord(record);
 		} catch (const Poco::Exception &E) {
 			std::cout << "What: " << E.what() << " name: " << E.name() << std::endl;

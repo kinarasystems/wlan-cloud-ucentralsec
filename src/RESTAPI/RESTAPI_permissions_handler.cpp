@@ -34,7 +34,7 @@ namespace OpenWifi {
    * Replace existing permissions of that role with new ones
   */
   void RESTAPI_permissions_handler::DoPut() {
-    if (!UserInfo_.userinfo.userPermissions["permissions"]["update"]) {
+    if (!UserInfo_.userinfo.userPermissions[SecurityObjects::PM_PERMISSIONS][SecurityObjects::PT_UPDATE]) {
       return UnAuthorized(RESTAPI::Errors::ACCESS_DENIED);
     }
 
