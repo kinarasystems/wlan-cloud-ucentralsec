@@ -441,7 +441,9 @@ namespace OpenWifi::RESTAPI::Errors {
         7001, "There is an instance of this simulation already running.."
     };
 
-
+    static const struct msg CouldNotUpdatePermissions {
+        7100, "Permissions could not be updated. Please try again"
+    };
 } // namespace OpenWifi::RESTAPI::Errors
 
 namespace OpenWifi::RESTAPI::Protocol {

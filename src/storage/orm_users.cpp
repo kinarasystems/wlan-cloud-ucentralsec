@@ -150,9 +150,20 @@ namespace OpenWifi {
 		return false;
 	}
 
-	bool BaseUserDB::GetUserById(const std::string &Id, SecurityObjects::UserInfo &User) {
+	/**
+	 * Given an Id and User object, find the user based on ID and write into User
+	 * If GetPerms is true, also get permissions of that user
+	 * Return whether this was successful
+	*/
+	bool BaseUserDB::GetUserById(const std::string &Id, SecurityObjects::UserInfo &User, bool GetPerms) {
 		try {
-			return GetRecord("id", Id, User);
+			bool getUserSuccess = GetRecord("id", Id, User);
+			bool getPermissionSuccess = true;
+			if (getUserSuccess && GetPerms) {
+				std::string role = SecurityObjects::UserTypeToString(User.userRole);
+				getPermissionSuccess = StorageService()->PermissionDB().GetPermissions(role, User.userPermissions);
+			}
+			return getUserSuccess && getPermissionSuccess;
 		} catch (const Poco::Exception &E) {
 			Logger().log(E);
 		}

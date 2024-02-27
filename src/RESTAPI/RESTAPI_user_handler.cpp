@@ -29,7 +29,7 @@ namespace OpenWifi {
 			if (!StorageService()->UserDB().GetUserByEmail(Id, UInfo)) {
 				return NotFound();
 			}
-		} else if (!StorageService()->UserDB().GetUserById(Id, UInfo)) {
+		} else if (!StorageService()->UserDB().GetUserById(Id, UInfo, true)) {
 			return NotFound();
 		}
 

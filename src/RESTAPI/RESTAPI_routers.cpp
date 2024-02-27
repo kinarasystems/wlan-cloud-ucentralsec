@@ -8,6 +8,7 @@
 #include "RESTAPI/RESTAPI_avatar_handler.h"
 #include "RESTAPI/RESTAPI_email_handler.h"
 #include "RESTAPI/RESTAPI_oauth2_handler.h"
+#include "RESTAPI/RESTAPI_permissions_handler.h"
 #include "RESTAPI/RESTAPI_preferences.h"
 #include "RESTAPI/RESTAPI_signup_handler.h"
 #include "RESTAPI/RESTAPI_sms_handler.h"
@@ -45,7 +46,7 @@ namespace OpenWifi {
 			RESTAPI_submfa_handler, RESTAPI_totp_handler, RESTAPI_subtotp_handler,
 			RESTAPI_signup_handler, RESTAPI_validate_sub_token_handler,
 			RESTAPI_validate_token_handler, RESTAPI_validate_apikey, RESTAPI_webSocketServer,
-			RESTAPI_apiKey_handler, RESTAPI_systemSecret_handler>(Path, Bindings, L, S,
+			RESTAPI_apiKey_handler, RESTAPI_systemSecret_handler, RESTAPI_permissions_handler>(Path, Bindings, L, S,
 																  TransactionId);
 	}
 
