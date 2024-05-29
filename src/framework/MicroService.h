@@ -166,6 +166,7 @@ namespace OpenWifi {
 								const std::string &FormatterPattern,
 								const std::string &root_env_var);
 		inline bool AllowExternalMicroServices() const { return AllowExternalMicroServices_; }
+        inline bool AllowKeylessEntry() const { return AllowKeylessEntry_; }
 
 	  private:
 		static MicroService *instance_;
@@ -198,6 +199,7 @@ namespace OpenWifi {
 		bool NoAPISecurity_ = false;
 		bool NoBuiltInCrypto_ = false;
 		bool AllowExternalMicroServices_ = false;
+        bool AllowKeylessEntry_ = false;
 		Poco::JWT::Signer Signer_;
 		Poco::Logger &Logger_;
 		Poco::ThreadPool TimerPool_{"timer:pool", 2, 32};

@@ -1,8 +1,9 @@
 #!/bin/bash
+repo="owsec"
+
 set -e
 [ -z "$AWS_PROFILE" ] && echo "Please set AWS_PROFILE" && exit 1
 registry="471112855615.dkr.ecr.us-east-1.amazonaws.com"
-repo="owsec"
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin "$registry"
 img="$registry/$repo"
 if [ -n "$1" ] ; then

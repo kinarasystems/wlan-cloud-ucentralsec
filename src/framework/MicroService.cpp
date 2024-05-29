@@ -459,6 +459,7 @@ namespace OpenWifi {
 		LoadMyConfig();
 
 		AllowExternalMicroServices_ = ConfigGetBool("allowexternalmicroservices", true);
+        AllowKeylessEntry_ = ConfigGetBool("allowkeylessentry", false);
 
 		InitializeSubSystemServers();
 		ServerApplication::initialize(self);
@@ -728,6 +729,9 @@ namespace OpenWifi {
 	}
 
 	[[nodiscard]] bool MicroService::IsValidAPIKEY(const Poco::Net::HTTPServerRequest &Request) {
+        if (AllowKeylessEntry_) {
+            return true;
+        }
 		try {
 			auto APIKEY = Request.get("X-API-KEY");
 			return APIKEY == MyHash_;
