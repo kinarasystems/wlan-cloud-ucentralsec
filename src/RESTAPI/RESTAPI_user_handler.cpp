@@ -163,6 +163,11 @@ namespace OpenWifi {
 			return NotFound();
 		}
 
+		// Non-admin/root user is attempting to modify a user that is not themselves
+		if ((UserInfo_.userinfo.userRole != SecurityObjects::USER_ROLE::ADMIN && UserInfo_.userinfo.userRole != SecurityObjects::USER_ROLE::ROOT) && (UserInfo_.userinfo.id != Id)) {
+			return UnAuthorized(RESTAPI::Errors::ACCESS_DENIED);
+		}
+
 		if (!ACLProcessor::Can(UserInfo_.userinfo, Existing, ACLProcessor::MODIFY)) {
 			return UnAuthorized(RESTAPI::Errors::ACCESS_DENIED);
 		}
