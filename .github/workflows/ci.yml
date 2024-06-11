@@ -73,7 +73,7 @@ jobs:
           cd build
           version=$(cat version)
           ../tools/utils/docker_build \
-              -M kinara \
+              -m kinara \
               -b "$GITHUB_REF" \
               -t "$IMAGE_TAG" \
               -r "$ECR_REGISTRY/$ECR_REPOSITORY" \
