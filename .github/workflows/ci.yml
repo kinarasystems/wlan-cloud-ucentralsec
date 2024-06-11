@@ -3,11 +3,12 @@ name: Build Docker image
 on:
   push:
     paths-ignore:
+      - 'openapi/**'
       - '**.md'
       - 'version'
       - 'package*.json'
-      - 'helm/Chart.yaml'
-      - 'helm/values.yaml'
+      - 'helm/*.yaml'
+      - 'CMakeLists.txt'
     branches:
       - kinara
   pull_request:
