@@ -7,7 +7,7 @@ fullnameOverride: ""
 images:
   owsec:
     repository: 471112855615.dkr.ecr.us-east-1.amazonaws.com/owsec
-    tag: kv3.0.1
+    tag: kv3.0.2
     pullPolicy: Always
     #    regcred:
     #      registry: tip-tip-wlan-cloud-ucentral.jfrog.io
