@@ -1,0 +1,15 @@
+{
+  "name": "owsec",
+  "version": "3.0.0",
+  "description": "This is the Kinara version of OpenWifi OWSEC",
+  "author": "Kinara Systems",
+  "homepage": "https://kinarasystems.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kinarasystems/wlan-cloud-ucentralsec"
+  },
+  "keywords": [
+    "owsec",
+    "security"
+  ]
+}
