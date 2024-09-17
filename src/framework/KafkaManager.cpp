@@ -107,6 +107,19 @@ namespace OpenWifi {
 					NewMessage.partition(0);
 					NewMessage.payload(Msg->Payload());
 					Producer.produce(NewMessage);
+					if (Queue_.size() < 100) {
+						// use flush when internal queue is lightly loaded, i.e. flush after each
+						// message
+						Producer.flush();
+					}
+					else {
+						// use poll when internal queue is loaded to allow messages to be sent in
+						// batches
+						Producer.poll((std::chrono::milliseconds) 0);
+					}
+				}
+				if (Queue_.size() == 0) {
+					// message queue is empty, flush all previously sent messages
 					Producer.flush();
 				}
 			} catch (const cppkafka::HandleException &E) {
@@ -119,6 +132,7 @@ namespace OpenWifi {
 			}
 			Note = Queue_.waitDequeueNotification();
 		}
+		Producer.flush();
 		poco_information(Logger_, "Stopped...");
 	}
 
