@@ -1,3 +1,7 @@
+## 3.0.4 (September 18, 2024)
+- chore: updated package.json, updated helm/Chart.yaml, updated helm/values.yaml, updated CMakeLists.txt, updated version, updated CHANGELOG.md, bumped 3.0.3 -> 3.0.4
+- Fix github ver-bump cmd line
+
 ## 3.0.3 (September 17, 2024)
 - chore: updated package.json, updated helm/Chart.yaml, updated helm/values.yaml, updated version, updated CHANGELOG.md, bumped 3.0.2 -> 3.0.3
 - Merge pull request #5 from kinarasystems/WIFI-13597-fix-kafka-producer-using-poll
