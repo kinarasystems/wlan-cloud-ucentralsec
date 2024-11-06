@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(owsec VERSION 3.0.4)
+project(owsec VERSION 3.0.5)
 
 set(CMAKE_CXX_STANDARD 17)
 
